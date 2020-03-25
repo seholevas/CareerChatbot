@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+  <!--              START UP CONVERSATION / RESPONSE                         -->
+  <category>
+    <pattern>*</pattern>
+    <template>To start a conversation, please say "Hello".</template>
+  </category>
+  <!--              START UP CONVERSATION / RESPONSE                         -->
+  <category>
+    <pattern>#<set>greetings</set>#</pattern>
+    <template>
+        <think><set name="topic">USERNAME</set></think>
+        <random>
+            <li>Hi! Didn't see you there 😅. Could I have your name please? Say "My Name is..."</li>
+            <li>Howdy Partner 😄. Could you tell me your name? Say "My Name is..."</li>
+            <li>Hey 🙋! before we continue, can I get your name? Say "My Name is..."</li>
+        </random>
+    </template>
+  </category>
+  
+  <!--              START UP CONVERSATION / RESPONSE                         -->
+  <topic name="USERNAME">
+    <!--        USER SAYS HI PROPERLY      -->
+      <category>
+        <pattern>#<set>introduction</set>#</pattern>
+        <template>
+            <think><set name="username"><star index="3"/></set></think>
+            <think><set name="topic">CONFIRM</set></think>
+            <random>
+                <li><formal><get name="username"/></formal>, what a good name. Are you here for career advice?</li>
+                <li>Wow, I know another person named <formal><get name="username"/></formal>. Anyways, would you like career advice?</li>
+                <li><formal><get name="username"/></formal>, such a cool name. Would you like me to help you with some career advice?</li>
+            </random>
+            <!--    YES OR NO PROMPT BUTTONS    -->
+            <reply>
+                <text>Yes</text>
+                <postback>yes</postback>
+            </reply>
+            <reply>
+                <text>No</text>
+                <postback>no</postback>
+            </reply>
+            <!--    END OF YES OR NO BUTTONS      -->
+        </template>
+      </category>
+      
+      <!--        USER DOES NOT SAY HI PROPERLY      -->
+      <category>
+          <pattern>_</pattern>
+          <template>I'm sorry, I am a bit confused. What is your name, again?</template>
+      </category>
+        
+        <!--        USER DOES NOT SAY HI PROPERLY AGAIN      -->
+        <!--        LOGS OFF, USER HAS TO START OVER AGAIN   -->
+        <category>
+          <pattern>#</pattern>
+          <that>WHAT IS YOUR NAME, AGAIN</that>
+          <template>I'm sorry, I don't understand what you are saying. Goodbye. 👋
+            <think><set name="topic">*</set></think>
+          </template>
+      </category>
+      
+  </topic>
+  
+  <topic name="CONFIRM">
+      <category>
+          <pattern>#<set>yes</set>#</pattern>
+          <template> 
+          <think><set name="topic">MAJOR</set></think>
+          Alright, In order to help you, I need to know your major:
+              <button>
+                  <text>Computer Science Major</text>
+                  <postback>COMPUTER SCIENCE MAJOR</postback>
+              </button>
+              
+              <button>
+                  <text>Other Major</text>
+                  <postback>OTHER MAJOR</postback>
+              </button>
+          </template>
+      </category>
+      
+      
+      <category>
+          <pattern>#<set>no</set>#</pattern>
+          <template> 
+          <think><set name="topic">*</set></think>
+          Alright. Goodbye 👋
+          </template>
+      </category>
+      
+  </topic>
+  
+  <topic name="MAJOR">
+      <category>
+          <pattern># COMPUTER SCIENCE #</pattern>
+          <template> 
+          <think><set name="topic">SELECTION</set></think>
+          Alright, in order to help you out I need to ask a few more questions.
+          What do you enjoy doing more?
+              <button>
+                  <text>Coding</text>
+                  <postback>CODING</postback>
+              </button>
+              
+              <button>
+                  <text>Designing</text>
+                  <postback>DESIGNING</postback>
+              </button>
+          </template>
+      </category>
+      
+      
+      <category>
+          <pattern>*</pattern>
+          <template> 
+          <think><set name="topic">*</set></think>
+          I do not quite understand what you mean. Goodbye 👋
+          </template>
+      </category>
+  </topic>
+  
+
+
+  <topic name="SELECTION">
+      <category>
+          <pattern># CODING #</pattern>
+          <template> 
+            <think><set name="topic">CODING DECISION</set></think>
+            Ok, you like to code more. Which one of these seems more interesting to you?
+            <carousel>
+                <card>
+                    <image>https://image.shutterstock.com/image-vector/hand-holding-mobile-phone-flat-600w-247245826.jpg</image>
+                    <title>MOBILE</title>
+                    <subtitle>Build apps and features for powerful, yet small, computers.</subtitle>
+                    <button>
+                        <text>I'm Interested</text>
+                        <postback>MOBILE</postback>
+                    </button>
+                </card>
+                
+                <card>
+                    <image>https://image.shutterstock.com/image-vector/vector-collection-flat-website-templates-600w-196641530.jpg</image>
+                    <title>WEBSITES</title>
+                    <subtitle>Creating strong landing pages, as well as usable websites for end users.</subtitle>
+                    <button>
+                        <text>I'm Interested</text>
+                        <postback>WEBSITES</postback>
+                    </button>
+                </card>
+                <card>
+                    <image>https://image.shutterstock.com/image-vector/people-interacting-charts-analyzing-statistics-600w-1120451582.jpg</image>
+                    <title>DATA</title>
+                    <subtitle>Manipulate data in order to solve some worldly problems.</subtitle>
+                    <button>
+                        <text>I'm Interested</text>
+                        <postback>DATA</postback>
+                    </button>
+                </card>
+            </carousel>
+          </template>
+      </category>
+      
+      <category>
+          <pattern># DESIGNING #</pattern>
+          <template> 
+            <think><set name="topic">DESIGNING DECISION</set></think>
+            <carousel>
+                <card>
+                    <image>https://image.shutterstock.com/image-vector/hand-holding-mobile-phone-flat-600w-247245826.jpg</image>
+                    <title>MOBILE</title>
+                    <subtitle>Think mobile, build the future.</subtitle>
+                    <button>
+                        <text>I'm Interested</text>
+                        <postback>MOBILE</postback>
+                    </button>
+                </card>
+                
+                <card>
+                    <image>https://image.shutterstock.com/image-vector/vector-collection-flat-website-templates-600w-196641530.jpg</image>
+                    <title>WEBSITES</title>
+                    <subtitle>Make sites, create possibilities.</subtitle>
+                    <button>
+                        <text>I'm Interested</text>
+                        <postback>WEBSITES</postback>
+                    </button>
+                </card>
+                <card>
+                    <image>https://image.shutterstock.com/image-vector/people-interacting-charts-analyzing-statistics-600w-1120451582.jpg</image>
+                    <title>DATA</title>
+                    <subtitle>Manipulate data, solve problems.</subtitle>
+                    <button>
+                        <text>I'm Interested</text>
+                        <postback>DATA</postback>
+                    </button>
+                </card>
+            </carousel>
+          </template>
+      </category>
+      
+      
+      <category>
+          <pattern>*</pattern>
+          <template> 
+            <think><set name="topic">*</set></think>
+            I do not quite understand what you mean. Goodbye 👋
+          </template>
+      </category>
+  </topic>
+
+
+  <topic name="CODING DECISION">
+      <category>
+          <pattern># MOBILE #</pattern>
+          <template> 
+          Alright, after careful consideration, I believe that Mobile Software Engineer is a good fit for you.
+          Glad I could help on your journey! Goodbye 👋
+          <card>
+              <image>https://image.shutterstock.com/image-photo/close-womens-hands-holding-cell-600w-379989589.jpg</image>
+              <title>Mobile Software Engineer</title>
+              <button>
+                  <link>
+                      <text>Learn More</text>
+                      <url>https://medium.com/outware/what-does-it-take-so-be-a-senior-mobile-software-engineer-b8c763ab36b9</url>
+                  </link>
+              </button>
+          </card>
+          </template>
+      </category>
+
+      <category>
+          <pattern># DATA #</pattern>
+          <template> 
+          Alright, after careful consideration, I believe that being a Data Scientist is a good fit for you.
+          Glad I could help on your journey! Goodbye 👋
+          <card>
+              <image>https://image.shutterstock.com/image-vector/vector-abstract-3d-big-data-600w-1007122360.jpg</image>
+              <title>Data Scientist</title>
+              <button>
+                  <link>
+                      <text>Learn More</text>
+                      <url>https://searchenterpriseai.techtarget.com/definition/data-scientist</url>
+                  </link>
+              </button>
+          </card>
+          </template>
+      </category>
+      
+      <category>
+          <pattern># WEBSITES #</pattern>
+          <template> 
+          Alright, after careful consideration, I believe that being a Backend Developer is a good fit for you.
+          Glad I could help on your journey! Goodbye 👋
+          <card>
+              <image>https://image.shutterstock.com/image-vector/web-development-coding-cross-platform-600w-1128653108.jpg</image>
+              <title>Backend Developer</title>
+              <button>
+                  <link>
+                      <text>Learn More</text>
+                      <url>https://www.guru99.com/what-is-backend-developer.html</url>
+                  </link>
+              </button>
+          </card>
+          </template>
+      </category>
+      
+      
+      <!--  https://www.guru99.com/what-is-backend-developer.html  -->
+      <category>
+          <pattern>*</pattern>
+          <template> 
+          <think><set name="topic">*</set></think>
+          Glad I could help you with your journey. Goodbye 👋
+          </template>
+      </category>
+  </topic>
+  
+
+  <topic name="DESIGNING DECISION">
+      <category>
+          <pattern># MOBILE #</pattern>
+          <template> 
+          Alright, after careful consideration, I believe that Product Designer is a good fit for you.
+          Glad I could help on your journey! Goodbye 👋
+          <card>
+              <image>https://image.shutterstock.com/image-photo/close-womens-hands-holding-cell-600w-379989589.jpg</image>
+              <title>Product Designer</title>
+              <button>
+                  <link>
+                      <text>Learn More</text>
+                      <url>https://appinventiv.com/blog/product-designer-role-in-app-development/</url>
+                  </link>
+              </button>
+          </card>
+          </template>
+      </category>
+
+      <category>
+          <pattern># DATA #</pattern>
+          <template> 
+          Alright, after careful consideration, I believe that being a Data Architect is a good fit for you.
+          Glad I could help on your journey! Goodbye 👋
+          <card>
+              <image>https://image.shutterstock.com/image-vector/vector-abstract-3d-big-data-600w-1007122360.jpg</image>
+              <title>Data Architect</title>
+              <button>
+                  <link>
+                      <text>Learn More</text>
+                      <url>https://www.techopedia.com/definition/29452/data-architect</url>
+                  </link>
+              </button>
+          </card>
+          </template>
+      </category>
+      
+      <category>
+          <pattern># WEBSITES #</pattern>
+          <template> 
+          Alright, after careful consideration, I believe that being a Front-End Developer is a good fit for you.
+          Glad I could help on your journey! Goodbye 👋
+          <card>
+              <image>https://image.shutterstock.com/image-vector/web-development-coding-cross-platform-600w-1128653108.jpg</image>
+              <title>Front-End Developer</title>
+              <button>
+                  <link>
+                      <text>Learn More</text>
+                      <url>https://frontendmasters.com/books/front-end-handbook/2018/what-is-a-FD.html</url>
+                  </link>
+              </button>
+          </card>
+          </template>
+      </category>
+      
+  </topic>
+
+  
+</aiml>
